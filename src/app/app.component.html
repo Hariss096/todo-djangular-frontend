@@ -1,0 +1,31 @@
+<!--<form action="">
+  <ul>
+    <li *ngFor='let todo of todos'>
+      {{ todo.value }}
+    </li>
+  </ul>
+  <div>
+    <input #username
+        type="text"
+        placeholder="Username">
+    <input #password
+        type="text"
+        placeholder="Password">
+  </div>
+  <span>
+    <button (click)="onLogin(username, password)">Login</button>
+    <button (click)="onSignup()">Signup</button>
+  </span>
+</form>
+-->
+
+<input #tod
+    type="text"
+    placeholder="List Todos"
+    (keyup.enter)="onLogin(tod)">
+
+<ul>
+  <li *ngFor='let todo of todos'>
+    {{ todo.name }}
+  </li>
+</ul>
