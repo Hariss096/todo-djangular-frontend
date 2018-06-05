@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CrudService } from './crud.service';
+import { Component, OnInit, APP_BOOTSTRAP_LISTENER } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
@@ -6,25 +7,39 @@ import { Http } from '@angular/http';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  private url = 'http://127.0.0.1:8000/todoapi/';
   todos: any[];
 
-  constructor(private http: Http) {
-    http.get(this.url).subscribe(resp => {
-      this.todos = resp.json();
-    });
+  constructor(private cs: CrudService) {
+
   }
 
-  onLogin( input: HTMLInputElement) {
-    let pos = { name: input.value };
+  ngOnInit() {
+    this.cs.getData().
+      subscribe(resp => {
+      this.todos = resp.json();
+      // console.log(this.todos);
+    });
+}
+
+  onEnter( input: HTMLInputElement) {
+    const post = { name: input.value };
     input.value = '';
 
-    this.http.post(this.url, pos)
+    this.cs.postData(post)
       .subscribe(response => {
-        pos = response.json();
-        this.todos.splice(0, 0, pos);
+        post['id'] = response.json().id;
+        this.todos.splice(0, 0, post);
+        // console.log(pos.id);
+      });
+  }
+
+  onDelete(todo) {
+    this.cs.deleteData(todo['id']).subscribe(
+      response => {
+        let index = this.todos.indexOf(todo);
+        this.todos.splice(index, 1);
       });
   }
 }

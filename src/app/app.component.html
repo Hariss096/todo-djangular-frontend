@@ -22,10 +22,15 @@
 <input #tod
     type="text"
     placeholder="List Todos"
-    (keyup.enter)="onLogin(tod)">
+    (keyup.enter)="onEnter(tod)">
 
 <ul>
-  <li *ngFor='let todo of todos'>
-    {{ todo.name }}
+  <li *ngFor= "let todo of todos">
+      {{ todo.name }}
+      <button (click)="onDelete(todo)">
+      Delete
+    </button>
   </li>
 </ul>
+
+
